@@ -1,0 +1,6 @@
+mysite/settings.py
+.venv
+.idea/
+__pycache__/
+db.sqlite3
+mysite_data.json
