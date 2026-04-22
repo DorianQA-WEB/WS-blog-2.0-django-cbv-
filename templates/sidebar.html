@@ -8,7 +8,7 @@
             {% recursetree categories %}
                 <li>
                     <a href="{{ node.get_absolute_url }}">{{ node.title }}</a>
-                </li>
+                </li>cd
                 {% if not node.is_leaf_node %}
                     <ul>
                         {{ children }}
