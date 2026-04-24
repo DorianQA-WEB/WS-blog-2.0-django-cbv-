@@ -6,6 +6,18 @@ from django.urls import reverse
 from apps.service.utils import unique_slugify
 
 
+class PostManage(models.Manager):
+    """
+    Кастомный менеджер для модели постов
+    """
+
+    def get_queryset(self):
+        """
+        Список постов (SQL запрос с фильтрацией по статусу опубликованно)
+        """
+        return super().get_queryset().filter(status='published')
+
+
 class Post(models.Model):
     """
     Модель постов для нашего блога
@@ -33,6 +45,10 @@ class Post(models.Model):
     updater = models.ForeignKey(to=User, verbose_name='Обновил', on_delete=models.SET_NULL, null=True,
                                   related_name='updater_posts', blank=True)
     fixed = models.BooleanField(default=False, verbose_name='Закрепить')
+
+    objects = models.Manager()
+    custom = PostManage()
+
 
     class Meta:
         db_table = 'blog_post'
