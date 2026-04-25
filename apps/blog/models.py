@@ -15,7 +15,7 @@ class PostManage(models.Manager):
         """
         Список постов (SQL запрос с фильтрацией по статусу опубликованно)
         """
-        return super().get_queryset().filter(status='published')
+        return super().get_queryset().select_related('author', 'category').filter(status='published')
 
 
 class Post(models.Model):
