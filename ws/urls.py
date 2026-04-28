@@ -21,9 +21,11 @@ from django.conf import settings
 from debug_toolbar.toolbar import debug_toolbar_urls
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.blog.urls'), name='blog'),
+    path('', include('apps.accounts.urls')),
 ]
 
 if settings.DEBUG:
