@@ -5,7 +5,6 @@ from .models import Profile
 
 
 class UserUpdateForm(forms.ModelForm):
-    class Meta:
         """
         Форма обновления данных пользователя
         """
@@ -38,7 +37,7 @@ class ProfileUpdateForm(forms.ModelForm):
     birth_date = forms.DateField(
         widget=forms.TextInput(attrs={'class': 'form-control mb-1'})
     )
-    bio = forms.CharField(max_length=500, widget=forms.TextArea(attrs={'class': 'form-control mb-1'}))
+    bio = forms.CharField(max_length=500, widget=forms.Textarea(attrs={'class': 'form-control mb-1'}))
     avatar = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control mb-1'}))
 
     class Meta:
