@@ -10,8 +10,8 @@ class Profile(models.Model):
     slug = models.SlugField(verbose_name='URL', max_length=255, blank=True, unique=True)
     avatar = models.ImageField(
         verbose_name='Аватар',
+        default='images/avatars/default.jpg',
         upload_to='images/avatars/%Y/%m/%d/',
-        default='images/avatars/default.png',
         blank=True,
         validators=[FileExtensionValidator(allowed_extensions=('jpg', 'png', 'jpeg',))],)
     bio = models.TextField(verbose_name='Информация о себе', max_length=500, blank=True)
@@ -43,4 +43,4 @@ class Profile(models.Model):
         """
         Ссылка на профиль
         """
-        return reverse('profile', kwargs={'slug': self.slug})
+        return reverse('profile_detail', kwargs={'slug': self.slug})

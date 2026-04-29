@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Post, Category
+from .forms import PostCreateForm, PostUpdateForm
 
 
 class PostListView(ListView):
@@ -49,3 +50,41 @@ class PostFromCategory(ListView):
         page = context['page_obj']
         context['paginator_range'] = page.paginator.get_elided_page_range(page.number)
         return context
+
+
+class PostCreateView(CreateView):
+    """
+    Представление: создание материалов на сайте
+    """
+    model = Post
+    template_name = 'blog/post_create.html'
+    form_class = PostCreateForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Создание материала'
+        return context
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class PostUpdateView(UpdateView):
+    """
+    Представление: обновления материала на сайте
+    """
+    model = Post
+    template_name = 'blog/post_update.html'
+    context_object_name = 'post'
+    form_class = PostUpdateForm
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = f'Обновление статьи: {self.object.title}'
+        return context
+
+    def form_valid(self, form):
+        # form.instance.updater = self.request.user
+        return super().form_valid(form)
