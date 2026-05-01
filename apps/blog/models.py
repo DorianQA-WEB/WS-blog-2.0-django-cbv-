@@ -117,5 +117,45 @@ class Category(MPTTModel):
         return self.title
 
 
+class Comment(MPTTModel):
+    """
+    Модель древовидных комментариев
+    """
+    STATUS_OPTIONS = (
+    ('published', 'Опубликовано'),
+    ('draft', 'Черновик')
+    )
+    post = models.ForeignKey(to=Post, on_delete=models.CASCADE, verbose_name='Запись', related_name='comments')
+    author = models.ForeignKey(to=User, verbose_name='Автор', on_delete=models.CASCADE, related_name='comments_author')
+    content = models.TextField(verbose_name='Комментарий', max_length=3000)
+    time_create = models.DateTimeField(verbose_name='Время создания', auto_now_add=True)
+    time_update = models.DateTimeField(verbose_name='Время обновления', auto_now=True)
+    status = models.CharField(choices=STATUS_OPTIONS,
+                              verbose_name='Статус комментария',
+                              max_length=10,
+                              default='published')
+    parent = TreeForeignKey(to='self',
+                            verbose_name='Родительский комментарий',
+                            on_delete=models.CASCADE,
+                            null=True,
+                            blank=True,
+                            related_name='children')
 
 
+    class MPTTMeta:
+        """
+        Сортировка по вложенности
+        """
+        order_insertion_by = ('-time_create',)
+
+
+    class Meta:
+        """
+        Сортировка, название модели в админ панели, таблица в данными
+        """
+        ordering = ['-time_create']
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+
+    def __str__(self):
+        return f'{self.author}:{self.content}'
