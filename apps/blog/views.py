@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.utils.formats import date_format
 from django.utils.timezone import localtime
+from taggit.models import Tag
 
 from .forms import CommentCreateForm
 
@@ -141,3 +142,21 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 
     def handle_no_permission(self):
         return JsonResponse({'error': 'Необходима авторизация для добавления комментариев!'}, status=400)
+
+
+class PostByTagListView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'
+    context_object_name = 'posts'
+    paginated_by = 10
+    tag = None
+
+    def get_queryset(self):
+        self.tag = Tag.objects.get(slug=self.kwargs['tag'])
+        queryset = Post.objects.filter(tag__slug=self.tag.slug)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = f'Записи по тегу: {self.tag.name}'
+        return context

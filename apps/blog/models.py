@@ -5,6 +5,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 from django.urls import reverse
 from apps.service.utils import unique_slugify
 from taggit.managers import TaggableManager
+from ckeditor.fields import RichTextField
 
 
 class PostManage(models.Manager):
@@ -29,8 +30,8 @@ class Post(models.Model):
     )
     title = models.CharField(verbose_name='Название записи', max_length=255)
     slug = models.SlugField(verbose_name='URL', max_length=255, blank=True)
-    description = models.TextField(verbose_name='Краткое описание', max_length=500)
-    text = models.TextField(verbose_name='Текст записи')
+    description = RichTextField(verbose_name='Краткое описание', config_name='awesome_ckeditor')
+    text = RichTextField(verbose_name='Текст записи',  config_name='awesome_ckeditor')
     category = TreeForeignKey(to='Category', on_delete=models.PROTECT, verbose_name='Категория',
                                      related_name='posts', default=1)
     thumbnail = models.ImageField(default='default.jpg',
