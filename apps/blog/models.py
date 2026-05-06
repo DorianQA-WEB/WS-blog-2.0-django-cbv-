@@ -172,7 +172,7 @@ class Rating(models.Model):
     Модель рейтинга: Лайк - Дизлайк
     """
     post = models.ForeignKey(to=Post, verbose_name='Запись', on_delete=models.CASCADE, related_name='ratings')
-    user = models.ForeignKey(to=User, verbose_name='Пользователь', on_delete=models.CASCADE, related_name='ratings',
+    user = models.ForeignKey(to=User, verbose_name='Пользователь', on_delete=models.CASCADE,
                              blank=True, null=True)
     value = models.IntegerField(verbose_name='Значение', choices=[(1, 'лайк'), (-1, 'дизлайк')])
     time_create = models.DateTimeField(verbose_name='Время создания', auto_now_add=True)

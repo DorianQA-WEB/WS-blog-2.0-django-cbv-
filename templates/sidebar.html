@@ -9,6 +9,7 @@
                 <li>
                     <a href="{{ node.get_absolute_url }}">{{ node.title }}</a>
                 </li>
+                <!-- The children go here -->
                 {% if not node.is_leaf_node %}
                     <ul>
                         {{ children }}
@@ -16,5 +17,6 @@
                 {% endif %}
             {% endrecursetree %}
         </ul>
+        <a href="{% url 'latest_post_feed' %}">Подписаться на RSS ленту</a>
     </div>
 </div>
