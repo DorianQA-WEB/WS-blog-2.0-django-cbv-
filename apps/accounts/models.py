@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
 from django.urls import reverse
 from apps.service.utils import unique_slugify
+from django.core.cache import cache
 
 
 class Profile(models.Model):
@@ -44,3 +45,9 @@ class Profile(models.Model):
         Ссылка на профиль
         """
         return reverse('profile_detail', kwargs={'slug': self.slug})
+
+    def is_online(self):
+        cache_key = f'last-seen-{self.user.id}'
+        last_seen = cache.get(cache_key)
+
+        return True if last_seen else False
