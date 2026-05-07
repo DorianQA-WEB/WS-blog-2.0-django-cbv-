@@ -6,6 +6,9 @@
 Интерфейс адаптирован под мобильные устройства с использованием Bootstrap 5.  
 Поддерживается режим разработки с отдачей медиа-файлов через `MEDIA_URL`.  
 
+Установка списка зависимостей:  
+- `pip install -r requirements.txt`  
+
 Проект использует виртуальное окружение Python:  
 - Активация в PowerShell: `.venv\Scripts\Activate.ps1`  
 - Активация в CMD: `.venv\Scripts\activate`  
@@ -17,8 +20,6 @@
 - `python manage.py makemigrations`  
 - `python manage.py migrate`  
 
-Генерация списка зависимостей:  
-- `pip freeze > requirements.txt`  
 
 Все URL-пути корректны:  
 - Подключение `debug_toolbar` реализовано через `'debug_toolbar.urls'` — без лишних импортов  
